@@ -222,7 +222,8 @@ void() army_die1 = [ $death1, army_die2 ] {};
 void() army_die2 = [ $death2, army_die3 ] {};
 void() army_die3 = [ $death3, army_die4 ]
 {
-	self.solid = SOLID_NOT;
+	become_corpse();
+//	self.solid = SOLID_NOT;
 	self.ammo_shells = 5;
 	DropBackpack();
 };
@@ -238,7 +239,8 @@ void() army_cdie1 = [ $deathc1, army_cdie2 ] {};
 void() army_cdie2 = [ $deathc2, army_cdie3 ] { ai_back(5); };
 void() army_cdie3 = [ $deathc3, army_cdie4 ]
 {
-	self.solid = SOLID_NOT;
+	become_corpse();
+//	self.solid = SOLID_NOT;
 	self.ammo_shells = 5;
 	DropBackpack();
 	ai_back(4);
@@ -303,6 +305,7 @@ void() monster_army =
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
 
+	self.headmdl = "progs/h_guard.mdl";
 	setmodel(self, "progs/soldier.mdl");
 
 	setsize(self, '-16 -16 -24', '16 16 40');

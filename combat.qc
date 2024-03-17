@@ -17,6 +17,7 @@
     See file, 'COPYING', for details.
 */
 
+void(vector org, vector vel, float damage) SpawnBlood;
 void() T_MissileTouch;
 void() info_player_start;
 void(entity targ, entity attacker) ClientObituary;
@@ -185,6 +186,11 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 // do the damage
 	targ.health = targ.health - take;
 
+	if (targ.health <= 20) // set 20 to the health you want the bleeding to start
+	{
+	targ.bleed = TRUE; // bleed
+	}
+
 	if (targ.health <= 0)
 	{
 		Killed(targ, attacker);
@@ -300,3 +306,7 @@ void(entity attacker, float damage) T_BeamDamage =
 	}
 };
 
+void(entity org) Bleeding =
+{
+        SpawnBlood (org.origin, '0 0 0', 1); // make the blood
+};

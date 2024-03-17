@@ -40,6 +40,7 @@ void() W_Precache =
 	precache_sound("weapons/grenade.wav"); // grenade launcher
 	precache_sound("weapons/bounce.wav"); // grenade bounce
 	precache_sound("weapons/shotgn2.wav"); // super shotgun
+	precache_model ("progs/zom_gib.mdl");
 };
 
 float() crandom =
@@ -135,7 +136,10 @@ SpawnBlood
 */
 void(vector org, vector vel, float damage) SpawnBlood =
 {
-	particle(org, vel*0.1, 73, damage*2);
+//	particle(org, vel*0.1, 73, damage*2);
+	particle (org, vel*0.1, 79, damage*1);
+	particle (org, vel*0.25, 74, damage*5);
+	particle (org, vel*0.15, 69, damage*2);
 };
 
 /*
@@ -231,6 +235,8 @@ void(float damage, vector dir) TraceAttack =
 		SpawnBlood(org, vel*0.2, damage);
 		AddMultiDamage(trace_ent, damage);
 	}
+	if(random() < 0.4) //only 2 in 5 times to prevent overflows
+        ThrowBloodSplat(dir, trace_endpos, trace_ent); //throw blood splat in direction of shot
 	else
 	{
 		WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
@@ -703,6 +709,12 @@ void() spike_touch =
 		spawn_touchblood(9);
 		T_Damage(other, self, self.owner, 9);
 	}
+	if (random() < 0.8) //only 4 in 5 times to prevent overflows
+	{
+        self.angles_x = self.angles_x*-1; //account for error in makevectors with non-player entities
+        makevectors(self.angles); //find direction nail is facing
+        ThrowBloodSplat(v_forward, self.origin, other); //throw blood splat in direction nail is facing
+	}
 	else
 	{
 		WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
@@ -741,6 +753,12 @@ void() superspike_touch =
 	{
 		spawn_touchblood(18);
 		T_Damage(other, self, self.owner, 18);
+	}
+	if (random() < 0.8) //only 4 in 5 times to prevent overflows
+	{
+        self.angles_x = self.angles_x*-1; //account for error in makevectors with non-player entities
+        makevectors(self.angles); //find direction nail is facing
+        ThrowBloodSplat(v_forward, self.origin, other); //throw blood splat in direction nail is facing
 	}
 	else
 	{
@@ -1253,6 +1271,9 @@ void() ImpulseCommands =
 
 	if (self.impulse == 255)
 		QuadCheat();
+		
+	if (self.impulse == 30)
+		flash_toggle();
 
 	self.impulse = 0;
 };

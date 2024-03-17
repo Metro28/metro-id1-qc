@@ -1,14 +1,18 @@
 ../progs.dat
 
 defs.qc
+flash.qc
 subs.qc
 fight.qc
 ai.qc
 combat.qc
 items.qc
+splat.qc
 weapons.qc
 world.qc
 client.qc
+blood.qc
+KickGibs.qc
 player.qc
 monsters.qc
 doors.qc
@@ -17,6 +21,7 @@ triggers.qc
 plats.qc
 misc.qc
 
+corpse.qc
 ogre.qc
 demon.qc
 shambler.qc

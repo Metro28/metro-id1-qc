@@ -855,6 +855,9 @@ void() PlayerPreThink =
 	CheckRules();
 	WaterMove();
 
+	if (self.bleed == TRUE)
+	Bleeding(self);
+
 	if (self.waterlevel == 2)
 		CheckWaterJump();
 

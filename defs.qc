@@ -708,4 +708,9 @@ float(entity e, float healamount, float ignore) T_Heal; // health function
 
 float(entity targ, entity inflictor) CanDamage;
 
+.float bleed;
+
+.float flash_flag; // On/off for the flashlight
+.entity flash;   // flash entity
+
 
