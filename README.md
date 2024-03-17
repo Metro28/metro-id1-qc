@@ -20,3 +20,17 @@ My changes done to the codebase compared to 1.01:
   - Consistent use of whitespace
   - Consistent spacing around and inside () and {}
   - Try to eliminate mixed indentation (using 4-size tabs as suggested by original sources)
+
+
+# Metro's modifications
+- Added Blood Splats by Maniac
+- Added Bloodier Trails by Kilbert
+- Added Gibbable Corpses by Kryten
+- Added I Bleed by ShockMan
+- Added Kicking Heads by Ivana Gibson
+- Added More Blood by Timm 'Mr?' Stokke
+- Added More Gibs by Timm 'Mr?' Stokke
+- Added Flashlight by Shockman
+
+I modified some things.
+I don't know how to program in QuakeC :(
