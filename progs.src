@@ -10,6 +10,7 @@ items.qc
 splat.qc
 weapons.qc
 world.qc
+splash.qc
 client.qc
 blood.qc
 KickGibs.qc

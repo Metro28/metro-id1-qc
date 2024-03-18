@@ -713,4 +713,7 @@ float(entity targ, entity inflictor) CanDamage;
 .float flash_flag; // On/off for the flashlight
 .entity flash;   // flash entity
 
+.float splashy;
+.float cansplash;
+
 

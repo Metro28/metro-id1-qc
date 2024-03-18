@@ -880,6 +880,7 @@ void() PlayerPreThink =
 // teleporters can force a non-moving pause time
 	if (time < self.pausetime)
 		self.velocity = '0 0 0';
+		CheckSplash();
 };
 
 /*

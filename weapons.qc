@@ -424,6 +424,8 @@ void() W_FireRocket =
 	setmodel(missile, "progs/missile.mdl");
 	setsize(missile, '0 0 0', '0 0 0');
 	setorigin(missile, self.origin + v_forward*8 + '0 0 16');
+	
+	missile.cansplash = TRUE;
 };
 
 /*
@@ -607,6 +609,8 @@ void() W_FireGrenade =
 	setmodel(missile, "progs/grenade.mdl");
 	setsize(missile, '0 0 0', '0 0 0');
 	setorigin(missile, self.origin);
+	
+	missile.cansplash = TRUE;
 };
 
 
@@ -641,6 +645,8 @@ void(vector org, vector dir) launch_spike =
 	setorigin(newmis, org);
 
 	newmis.velocity = dir * 1000;
+	
+	newmis.cansplash = TRUE;
 };
 
 void() W_FireSuperSpikes =
@@ -689,7 +695,9 @@ void(float ox) W_FireSpikes =
 
 
 .float hit_z;
-void() spike_touch =
+
+// old spike_touch:
+/* void() spike_touch =
 {
 	if (other == self.owner)
 		return;
@@ -731,6 +739,53 @@ void() spike_touch =
 	}
 
 	remove(self);
+
+}; */
+
+// new spike_touch:
+void() spike_touch =
+{
+local float rand;
+        if (other == self.owner)
+                return;
+
+        if (other.solid == SOLID_TRIGGER)
+                return; // trigger field, do nothing
+
+        if (pointcontents(self.origin) == CONTENT_SKY)
+        {
+                remove(self);
+                return;
+        }
+        
+// hit something that bleeds
+        if (other.takedamage)
+        {
+                spawn_touchblood (9);
+                T_Damage (other, self, self.owner, 9);
+                
+                remove(self);   //add this so they don't float...
+                return;         //add this to avoid errors
+        }
+        else
+        {
+                WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
+                
+                if (self.classname == "wizspike")
+                        WriteByte (MSG_BROADCAST, TE_WIZSPIKE);
+                else if (self.classname == "knightspike")
+                        WriteByte (MSG_BROADCAST, TE_KNIGHTSPIKE);
+                else
+                        WriteByte (MSG_BROADCAST, TE_SPIKE);
+                WriteCoord (MSG_BROADCAST, self.origin_x);
+                WriteCoord (MSG_BROADCAST, self.origin_y);
+                WriteCoord (MSG_BROADCAST, self.origin_z);
+        }
+
+        self.velocity = '0 0 0';        //add this, it makes the nail stop
+
+        self.nextthink = time + 10;     //add this, to prevent packet overflows
+        self.think = SUB_Remove;        //add this for same reason as above
 
 };
 
